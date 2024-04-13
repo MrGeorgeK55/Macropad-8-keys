@@ -1,6 +1,10 @@
 # Macropad 8 Keys
 Custom firmware for 8 key macropad 
 
+![image](https://github.com/MrGeorgeK55/Macropad-8-keys/assets/103085400/7f72080f-97e8-4881-b3bb-01eee13f383a)
+
+![image](https://github.com/MrGeorgeK55/Macropad-8-keys/assets/103085400/311b7511-cbea-4eaa-aeb6-950a9fb35050)
+
 
 Original post: 
 (https://hackaday.io/project/189914)
