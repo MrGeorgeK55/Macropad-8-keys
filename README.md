@@ -125,7 +125,7 @@ also the macro keys are in secuence, it doesnt support any modifier by now
 
 ### configure keys:
 1. `$ isp55e0 --data-dump flashdata.bin`
-2. edit first 6 bytes of this binary (3 keys, plus 3 for the knob), and write it back:
+2. edit the bytes of this binary using the example form above, and write it back:
 3. `$ isp55e0 --data-flash flashdata.bin`
 
 ### Documentation
