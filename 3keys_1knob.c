@@ -114,7 +114,7 @@
 // for visibility reasons any 00 after any data its just an FF or empty field
 // 00 is different than FF 
 
-// George mod v0.1
+// George mod v0.2
 /*
 mods:
 
