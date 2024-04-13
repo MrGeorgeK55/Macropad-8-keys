@@ -4,13 +4,19 @@ Custom firmware for 8 key macropad (Based on IC CH552g)
 ![image](https://github.com/MrGeorgeK55/Macropad-8-keys/assets/103085400/7f72080f-97e8-4881-b3bb-01eee13f383a)
 
 ![image](https://github.com/MrGeorgeK55/Macropad-8-keys/assets/103085400/311b7511-cbea-4eaa-aeb6-950a9fb35050)  
-(i will not upload a schematic because the base PCB has been modified)
+
+
+So, I bought a cheap macro pad with 8 keys, 8 RGB LEDs, and a power switch. The hardware is fine, but the original IC is not reprogramable, so I replaced it with the CH552G and did custom wiring.  
+If you are asking why I didn't used the original IC, let me ask you first: Do you trust a chinesse .exe file in a rar with password downloaded from a sketchy page just to configure the keys? of-fucking-course the answer is NO!.
+
+(im working on the schematic)  
 
 Original post: 
 (https://hackaday.io/project/189914)
 
 
 ### Diferences aganist original
+
 
 i used the same chip (CH552g) on a different kind of keyboard with 8 keys
 so i removed the rotatory encoder and added the support of macros up to 10 keys
