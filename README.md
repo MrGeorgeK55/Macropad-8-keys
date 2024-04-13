@@ -4,7 +4,7 @@ Custom firmware for 8 key macropad (Based on IC CH552g)
 ![image](https://github.com/MrGeorgeK55/Macropad-8-keys/assets/103085400/7f72080f-97e8-4881-b3bb-01eee13f383a)
 
 ![image](https://github.com/MrGeorgeK55/Macropad-8-keys/assets/103085400/311b7511-cbea-4eaa-aeb6-950a9fb35050)
-
+(i will not upload a schematic because the base PCB has been modified)
 
 Original post: 
 (https://hackaday.io/project/189914)
