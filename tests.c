@@ -20,7 +20,15 @@ struct key
 int main()
 {
     printf("reading file\n");
-    FILE *file = fopen("flashdata.bin", "rb"); // Open file for reading in binary mode
+
+    
+    //FILE *file = fopen("flashdata.bin", "rb"); // Open file for reading in binary mode
+
+    FILE *file = fopen("Consumer.bin", "rb"); // Open file for reading in binary mode
+
+    //FILE *file = fopen("Keyboard.bin", "rb"); // Open file for reading in binary mode
+
+    //FILE *file = fopen("Macros.bin", "rb"); // Open file for reading in binary mode
 
     if (!file)
     {
@@ -53,7 +61,7 @@ int main()
             printf("Type: %X\n", keys[i].type);
             printf("Mod: %X\n", keys[i].mod);
             printf("Ammount: %X\n", keys[i].ammount);
-            printf("Code: %X\n", keys[i].code[0]);
+            printf("Code: %X\n", (unsigned char)keys[i].code[0]);
             printf("Last: %X\n", keys[i].last);
 
             keys[i].type = CONSUMER;
@@ -66,7 +74,7 @@ int main()
             printf("Type: %X\n", keys[i].type);
             printf("Mod: %X\n", keys[i].mod);
             printf("Ammount: %X\n", keys[i].ammount);
-            printf("Code: %X\n", keys[i].code[0]);
+            printf("Code: %X\n", (unsigned char)keys[i].code[0]);
             printf("Last: %X\n", keys[i].last);
             printf("\n");
         }
@@ -104,7 +112,7 @@ int main()
         else if (keys[i].type == CONSUMER)
         {
             printf("Type: CONSUMER\n");
-            printf("Code: %X\n", keys[i].code[0]);
+            printf("Code: %X\n", (unsigned char)keys[i].code[0]);
             printf("Last: %X\n", keys[i].last);
         }
         else if (keys[i].type == MACRO)
