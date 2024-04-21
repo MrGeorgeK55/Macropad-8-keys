@@ -62,19 +62,19 @@
 //  0xB3	Play/Pause Media key // 0xB0	Next Track key // 0xB1	Previous Track key // 0xAE	Volume Down key // 0xAF	Volume Up key // 0xAD	Volume Mute key
 
 // keyboard keys
-//  number 1 = 1E // number 2 = 1F 
+//  number 1 = 1E // number 2 = 1F
 
 //  W          1A
 // A S D     04 16 07
 
 // note for readability the letters are in capital letters but the actual key presses are in lower case
-// if you want to have the secuences in capital letters fortunately they have the same hex code 
+// if you want to have the secuences in capital letters fortunately they have the same hex code
 // but you need to add the mod 01 for shift key press
 
 // current eeprom data structure and random data just for testing
 
-// Address:   0  1  2  3  4  5  6  7  8  9 10 11 
-// Address:  00 01 02 03 04 05 06 07 08 09 0A 0B  (hex) 
+// Address:   0  1  2  3  4  5  6  7  8  9 10 11
+// Address:  00 01 02 03 04 05 06 07 08 09 0A 0B  (hex)
 //----------------------------------------------
 // x0000000: 02 07 07 16 1A 1A 04 16 16 00 00 00  // key 1 //  Type Macro // Keys 7 // 380 //
 // x000000c: 02 06 07 07 16 1E 07 16 00 00 00 00  // key 2 //  Type Macro // Keys 6 // 120 //
@@ -90,8 +90,8 @@
 
 // Example of the eeprom data structure
 
-// Address:   0  1  2  3  4  5  6  7  8  9 10 11 
-// Address:  00 01 02 03 04 05 06 07 08 09 0A 0B  (hex) 
+// Address:   0  1  2  3  4  5  6  7  8  9 10 11
+// Address:  00 01 02 03 04 05 06 07 08 09 0A 0B  (hex)
 //----------------------------------------------
 // x0000000: T0 M0 C0 00 00 00 00 00 00 00 00 00  // key 1 // used only on keyboard keys
 // x000000c: T1 C0 00 00 00 00 00 00 00 00 00 00  // key 2 // used only on consumer keys
@@ -112,7 +112,7 @@
 // A0 represents the ammount of keys in the macro
 
 // for visibility reasons any 00 after any data its just an FF or empty field
-// 00 is different than FF 
+// 00 is different than FF
 
 // George mod v0.2
 /*
@@ -127,8 +127,6 @@ i hate red and blue colors so the Neopixels only turn green
 
 
 */
-
-
 
 // Libraries
 #include <config.h>     // user configurations
@@ -166,7 +164,6 @@ struct key
   char code[10];
   uint8_t last;
 };
-
 
 // NeoPixel Functions
 // Update NeoPixels
@@ -213,7 +210,20 @@ void handle_key(uint8_t current, struct key *key, uint8_t *neo)
 
       else if (key->type == MACRO)
       {
-        execute_macro(current, key, neo);
+        // ===================================================================================
+        // Experimental area
+        // not yet fully implemented
+
+        // execute macro witch is a sequence of X key presses on a single press of a key in the keyboard, the key secuence are read from the eeprom only if key type is MACRO
+
+        for (i = 0; i < ammount[0]; i++)
+        {
+          KBD_code_press(macro->code[i]););
+          DLY_ms(10);
+          KBD_code_release(macro->code[i]););
+          DLY_ms(10);
+        }
+        // ===================================================================================
       }
       if (neo)
         *neo = NEO_MAX; // light up corresponding NeoPixel
@@ -240,28 +250,7 @@ void handle_key(uint8_t current, struct key *key, uint8_t *neo)
     if (neo)
       *neo = NEO_MAX; // keep NeoPixel on
   }
-  
 }
-
-// ===================================================================================
-// Experimental area
-// not yet fully implemented
-
-// execute macro witch is a sequence of 11 key presses on a single press of a key in the keyboard, the key secuence are read from the eeprom only if key type is MACRO
-void execute_macro(uint8_t current, struct macro *macro, uint8_t *neo)
-{
-
-  for (i = 0; i < 10; i++)
-  {
-    KBD_code_press(macro->code[i]););
-    DLY_ms(10);
-    KBD_code_release(macro->code[i]););
-    DLY_ms(10);
-  }
-  DLY_ms(250);
-}
-
-// ===================================================================================
 
 // Main Function
 void main(void)
@@ -271,7 +260,6 @@ void main(void)
   __idata uint8_t i;  // temp variable
   uint8_t neo[8] =
       {0, NEO_MAX, 0}; // brightness of NeoPixels
-
 
   // Enter bootloader if key 1 is pressed
   NEO_init(); // init NeoPixels
@@ -291,7 +279,6 @@ void main(void)
 
   // TODO: Read eeprom for key characters
   // it sohuld read each row of 12 bytes and assign them to the key struct
-
 
   for (i = 0; i < 8; i++)
   {
@@ -340,12 +327,12 @@ void main(void)
   {
     handle_key(!PIN_read(PIN_KEY1), &keys[0], &neo[0]);
     handle_key(!PIN_read(PIN_KEY2), &keys[1], &neo[1]);
-    handle_key(!PIN_read(PIN_KEY3), &keys[2], &neo[3]);
-    handle_key(!PIN_read(PIN_KEY4), &keys[3], &neo[4]);
-    handle_key(!PIN_read(PIN_KEY5), &keys[4], &neo[5]);
-    handle_key(!PIN_read(PIN_KEY6), &keys[5], &neo[6]);
-    handle_key(!PIN_read(PIN_KEY7), &keys[6], &neo[7]);
-    handle_key(!PIN_read(PIN_KEY8), &keys[7], &neo[8]);
+    handle_key(!PIN_read(PIN_KEY3), &keys[2], &neo[2]);
+    handle_key(!PIN_read(PIN_KEY4), &keys[3], &neo[3]);
+    handle_key(!PIN_read(PIN_KEY5), &keys[4], &neo[4]);
+    handle_key(!PIN_read(PIN_KEY6), &keys[5], &neo[5]);
+    handle_key(!PIN_read(PIN_KEY7), &keys[6], &neo[6]);
+    handle_key(!PIN_read(PIN_KEY8), &keys[7], &neo[7]);
 
     // Update NeoPixels
     NEO_update(neo);
