@@ -216,11 +216,11 @@ void handle_key(uint8_t current, struct key *key, uint8_t *neo)
 
         // execute macro witch is a sequence of X key presses on a single press of a key in the keyboard, the key secuence are read from the eeprom only if key type is MACRO
 
-        for (i = 0; i < ammount[0]; i++)
+        for (i = 0; i < ammount; i++)
         {
-          KBD_code_press(macro->code[i]););
+          KBD_code_press(macro->code[i]);
           DLY_ms(10);
-          KBD_code_release(macro->code[i]););
+          KBD_code_release(macro->code[i]);
           DLY_ms(10);
         }
         // ===================================================================================
