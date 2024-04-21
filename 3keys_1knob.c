@@ -161,7 +161,7 @@ struct key
   enum KeyType type;
   uint8_t mod;
   uint8_t ammount;
-  char code[10];
+  uint8_t code[10];
   uint8_t last;
 };
 
