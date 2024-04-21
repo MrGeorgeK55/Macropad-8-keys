@@ -162,6 +162,7 @@ struct key
   uint8_t mod;
   uint8_t ammount;
   uint8_t code[10];
+  uint16_t codeConsumer;
   uint8_t last;
 };
 
@@ -205,7 +206,7 @@ void handle_key(uint8_t current, struct key *key, uint8_t *neo)
 
       else if (key->type == CONSUMER)
       {
-        CON_press(key->code[0]); // press consumer key
+        CON_press(key->codeConsumer); // press consumer key
       }
 
       else if (key->type == MACRO)
@@ -236,7 +237,7 @@ void handle_key(uint8_t current, struct key *key, uint8_t *neo)
       }
       else if (key->type == CONSUMER)
       {
-        CON_release(key->code); // release
+        CON_release(key->codeConsumer); // release
       }
       // no need to release macro keys but enter cooldown in case it is a macro key
       if (key->type == MACRO)
@@ -293,7 +294,7 @@ void main(void)
     else if (eeprom_read_byte(index) == 1)
     {
       keys[i].type = CONSUMER;
-      keys[i].code[0] = eeprom_read_byte(index + 1);
+      keys[i].codeConsumer = eeprom_read_byte(index + 1);
       keys[i].last = 0;
     }
     else if (eeprom_read_byte(index) == 2)
