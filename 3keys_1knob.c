@@ -257,7 +257,8 @@ void main(void)
 {
   // Variables
   struct key keys[8]; // array of struct for keys
-  __idata uint8_t i;  // temp variable
+  __idata uint8_t i;
+  __idata uint8_t j;  // temp variable
   uint8_t neo[8] =
       {0, NEO_MAX, 0}; // brightness of NeoPixels
 
@@ -299,7 +300,7 @@ void main(void)
     {
       keys[i].type = MACRO;
       keys[i].ammount = eeprom_read_byte(index + 1);
-      for (j = 0; j < macros[i].ammount; j++)
+      for (j = 0; j < keys[i].ammount; j++)
       {
         keys[i].code[j] = eeprom_read_byte(index + 2 + j);
       }
