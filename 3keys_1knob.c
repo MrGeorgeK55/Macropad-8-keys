@@ -233,7 +233,7 @@ void handle_key(uint8_t current, struct key *key, uint8_t *neo)
     { // key was released?
       if (key->type == KEYBOARD)
       {
-        KBD_code_release(key->mod, key->code); // release
+        KBD_code_release(key->mod, key->code[0]); // release
       }
       else if (key->type == CONSUMER)
       {
