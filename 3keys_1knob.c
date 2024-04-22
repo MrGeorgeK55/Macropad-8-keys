@@ -149,7 +149,7 @@ enum KeyType
   MACRO = 2
 };
 
-int __xdata index = 0;
+int index = 0;
 int __xdata incremental = 12;
 
 // #define KEY_EEPROM_FIELDS 12
@@ -160,8 +160,8 @@ struct key
   enum KeyType type;
   uint8_t mod;
   uint8_t ammount;
-  __xdata uint8_t code[10];
-  __xdata uint16_t codeConsumer;
+  uint8_t code[10];
+  uint16_t codeConsumer;
   uint8_t last;
 };
 
