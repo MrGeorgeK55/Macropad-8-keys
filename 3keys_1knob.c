@@ -155,7 +155,7 @@ int __xdata incremental = 12;
 // #define KEY_EEPROM_FIELDS 12
 
 // structur with key details
-struct key
+__xdata struct key
 {
   enum KeyType type;
   uint8_t mod;
@@ -256,7 +256,7 @@ void handle_key(uint8_t current, struct key *key, uint8_t *neo)
 void main(void)
 {
   // Variables
-  struct key keys[8]; // array of struct for keys
+  __xdata struct key keys[8]; // array of struct for keys
   __idata uint8_t i;
   __idata uint8_t j;  // temp variable
   uint8_t neo[8] =
