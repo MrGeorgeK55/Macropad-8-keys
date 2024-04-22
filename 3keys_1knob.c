@@ -149,9 +149,8 @@ enum KeyType
   MACRO = 2
 };
 
-uint8_t index = 0;
-uint8_t incremental = 12;
-uint8_t ammountOfMacroKeys = 0;
+int index = 0;
+int incremental = 12;
 
 // #define KEY_EEPROM_FIELDS 12
 
