@@ -8,8 +8,8 @@
 # ===================================================================================
 
 # Input and Output File Names
-SKETCH     = 3keys_1knob.c
-TARGET     = 3keys_1knob
+SKETCH     = MacropadX8.c
+TARGET     = MacropadX8
 INCLUDE    = include
 
 # Microcontroller Settings

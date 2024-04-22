@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > This is a **Work in Progress**.
-> Not working right now  
+> For now it compiles without errors but it needs testing 
 
 
 Custom firmware for 8 key macropad (Based on IC CH552g)
@@ -21,7 +21,7 @@ Original post:
 (https://hackaday.io/project/189914)
 
 
-### Diferences aganist original
+## Diferences aganist original
 
 
 i used the same chip (CH552g) on a different kind of keyboard with 8 keys
@@ -95,7 +95,7 @@ note for readability reasons the letters are in capital letters but the actual k
 if you want to have the secuences in capital letters fortunately they have the same hex code   
 but you need to add the mod 01 for shift key press  
 
-# visual example
+## visual example
 
 
 
@@ -124,7 +124,7 @@ for now bytes from 54 to 127 are not used so they are filled with 0x00
 by now the max ammount of keys a macro can have is 10 (theorical maximum 14 keys)  
 also the macro keys are in secuence, it doesnt support any modifier by now  
 
-
+# Compilation
 
 ### to compile:
 `$ make bin`

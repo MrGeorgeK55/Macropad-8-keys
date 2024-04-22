@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdint.h>
 
+
+//proof of concept for the algorithm to read the data from the eeprom
+//this is a simple version of the code that reads a file simulating the eeprom data
+//not needed to compile with the main code
+
+
 enum KeyType
 {
     KEYBOARD = 0,
