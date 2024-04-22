@@ -1,3 +1,5 @@
-/test2.exe
-/tests.exe
-/.vscode/
+# Ignore .vscode folder
+.vscode/
+
+# Ignore .exe files
+*.exe
