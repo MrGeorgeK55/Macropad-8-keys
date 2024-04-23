@@ -72,18 +72,27 @@
 // but you need to add the mod 01 for shift key press
 
 // current eeprom data structure and random data just for testing
+/*
+| Hex Address | 00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 0A | 0B |
+|-----------|----|----|----|----|----|----|----|----|----|----|----|----|
+| x0000000: | 02 | 07 | 07 | 16 | 1A | 1A | 04 | 16 | 16 | 00 | 00 | 00 | 
+| x000000c: | 02 | 06 | 07 | 07 | 16 | 04 | 07 | 16 | 00 | 00 | 00 | 00 | 
+| x0000018: | 02 | 08 | 16 | 1A | 04 | 16 | 1A | 07 | 16 | 1A | 00 | 00 | 
+| x0000024: | 02 | 04 | 16 | 16 | 07 | 04 | 00 | 00 | 00 | 00 | 00 | 00 | 
+| x0000030: | 02 | 05 | 1A | 16 | 07 | 04 | 1A | 00 | 00 | 00 | 00 | 00 | 
+| x000003c: | 00 | 00 | 1E | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
+| x0000048: | 01 | E2 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
+| x0000054: | 00 | 01 | 04 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
+*/
+// key 1 // Type Macro // Keys 7 // 380 //  
+// key 2 // Type Macro // Keys 6 // 120 //  
+// key 3 // Type Macro // Keys 8 // HELL //  
+// key 4 // Type Macro // Keys 4 // AMMO //  
+// key 5 // Type Macro // Keys 5 // REINFORCE //  
+// key 6 // Type Keyboard // Mod 0 // number 1 key //  
+// key 7 // Type Consumer // Play/Pause Media key //  
+// key 8 // Type Keyboard // Mod 0 // Not used //  
 
-// Address:   0  1  2  3  4  5  6  7  8  9 10 11
-// Address:  00 01 02 03 04 05 06 07 08 09 0A 0B  (hex)
-//----------------------------------------------
-// x0000000: 02 07 07 16 1A 1A 04 16 16 00 00 00  // key 1 //  Type Macro // Keys 7 // 380 //
-// x000000c: 02 06 07 07 16 1E 07 16 00 00 00 00  // key 2 //  Type Macro // Keys 6 // 120 //
-// x0000018: 02 08 16 1A 04 16 1A 07 16 1A 00 00  // key 3 //  Type Macro // Keys 8 // HELL //
-// x0000024: 02 04 16 16 1A 04 00 00 00 00 00 00  // key 4 //  Type Macro // Keys 4 // AMMO //
-// x0000030: 02 05 1A 16 07 1E 1A 00 00 00 00 00  // key 5 //  Type Macro // Keys 5 // REINFORCE //
-// x000003c: 00 00 1E 00 00 00 00 00 00 00 00 00  // key 6 //  Type Keyboard // Mod 0 // number 1 key //
-// x0000048: 01 B3 00 00 00 00 00 00 00 00 00 00  // key 7 //  Type Consumer // Play/Pause Media key //
-// x0000054: 00 00 00 00 00 00 00 00 00 00 00 00  // key 8 //  Type Keyboard // Mod 0 // Not used //
 
 // for now bytes from 54 to 127 are not used so they are filled with 0x00
 // by now the max ammount of keys a macro can have is 10
@@ -113,8 +122,22 @@
 
 // for visibility reasons any 00 after any data its just an FF or empty field
 // 00 is different than FF
+/*
 
-// George mod v0.2
+Key Modifiers  
+  
+00 None  
+01 Ctrl  
+02 Shift  
+03 Ctrl + Shift  
+04 Alt  
+05 Ctrl + Alt  
+06 Shift + Alt  
+07 Ctrl + Shift + Alt  
+
+*/
+
+
 /*
 mods:
 
@@ -123,10 +146,10 @@ i removed the knob
 theorically i still have 1 extra pinout to asign 1 more key
 i hate red and blue colors so the Neopixels only turn green
 
-
-
-
 */
+
+// George mod v0.3
+
 
 // Libraries
 #include <config.h>     // user configurations
