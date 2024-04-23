@@ -219,9 +219,9 @@ void handle_key(uint8_t current, struct key *key, uint8_t *neo)
         for (int i = 0; i < key->ammount; i++)
         {
           KBD_code_press(0, key->code[i]);
-          DLY_ms(10);
+          DLY_ms(5);
           KBD_code_release(0, key->code[i]);
-          DLY_ms(10);
+          DLY_ms(5);
         }
         // ===================================================================================
       }
@@ -241,7 +241,7 @@ void handle_key(uint8_t current, struct key *key, uint8_t *neo)
       // no need to release macro keys but enter cooldown in case it is a macro key
       if (key->type == MACRO)
       {
-        DLY_ms(250);
+        DLY_ms(50);
       }
     }
   }

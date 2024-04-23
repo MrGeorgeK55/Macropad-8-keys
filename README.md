@@ -50,6 +50,19 @@ C0 represents the code field of the first key
   
 C1 to C9 represents the extra code fields only used for macro keys  
   
+  
+### Modifiers  
+  
+00 None  
+01 Ctrl  
+02 Shift  
+03 Ctrl + Shift  
+04 Alt  
+05 Ctrl + Alt  
+06 Shift + Alt  
+07 Ctrl + Shift + Alt  
+
+
 ### For macro keys
 A0 represents the ammount of keys in the macro  
   
@@ -68,10 +81,10 @@ REINFORCE = W S D A W
   
 or in keyboard hex code  
 380 = 07 16 1A 1A 04 16 16  
-120 = 07 07 16 1E 07 16  
+120 = 07 07 16 04 07 16  
 HELL = 16 1A 04 16 1A 07 16 1A  
-AMMO = 16 16 1A 04  
-REINFORCE = 1A 16 07 1E 1A  
+AMMO = 16 16 1A 07  
+REINFORCE = 1A 16 07 04 1A  
   
 some key codes both for keyboard and consumer  
   
@@ -102,13 +115,13 @@ but you need to add the mod 01 for shift key press
 | Hex Address | 00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 0A | 0B |
 |-----------|----|----|----|----|----|----|----|----|----|----|----|----|
 | x0000000: | 02 | 07 | 07 | 16 | 1A | 1A | 04 | 16 | 16 | 00 | 00 | 00 | 
-| x000000c: | 02 | 06 | 07 | 07 | 16 | 1E | 07 | 16 | 00 | 00 | 00 | 00 | 
+| x000000c: | 02 | 06 | 07 | 07 | 16 | 04 | 07 | 16 | 00 | 00 | 00 | 00 | 
 | x0000018: | 02 | 08 | 16 | 1A | 04 | 16 | 1A | 07 | 16 | 1A | 00 | 00 | 
-| x0000024: | 02 | 04 | 16 | 16 | 1A | 04 | 00 | 00 | 00 | 00 | 00 | 00 | 
-| x0000030: | 02 | 05 | 1A | 16 | 07 | 1E | 1A | 00 | 00 | 00 | 00 | 00 | 
+| x0000024: | 02 | 04 | 16 | 16 | 07 | 04 | 00 | 00 | 00 | 00 | 00 | 00 | 
+| x0000030: | 02 | 05 | 1A | 16 | 07 | 04 | 1A | 00 | 00 | 00 | 00 | 00 | 
 | x000003c: | 00 | 00 | 1E | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
-| x0000048: | 01 | B3 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
-| x0000054: | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
+| x0000048: | 01 | E2 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
+| x0000054: | 00 | 01 | 04 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
 
 // key 1 // Type Macro // Keys 7 // 380 //  
 // key 2 // Type Macro // Keys 6 // 120 //  
