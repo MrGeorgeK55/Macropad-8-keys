@@ -111,7 +111,6 @@ but you need to add the mod 01 for shift key press
 ## visual example
 
 
-
 | Hex Address | 00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 0A | 0B |
 |-----------|----|----|----|----|----|----|----|----|----|----|----|----|
 | x0000000: | 02 | 07 | 07 | 16 | 1A | 1A | 04 | 16 | 16 | 00 | 00 | 00 | 
@@ -133,10 +132,6 @@ but you need to add the mod 01 for shift key press
 // key 8 // Type Keyboard // Mod 0 // Not used //  
 
 
-for now bytes from 54 to 127 are not used so they are filled with 0x00  
-by now the max ammount of keys a macro can have is 10 (theorical maximum 14 keys)  
-also the macro keys are in secuence, it doesnt support any modifier by now  
-
 # Compilation
 
 ### to compile:
@@ -153,7 +148,31 @@ also the macro keys are in secuence, it doesnt support any modifier by now
 2. edit the bytes of this binary using the example form above, and write it back:
 3. `$ isp55e0 --data-flash flashdata.bin`
 
-### Documentation
+# Notes:
+
+### Functions not supported yet by only reading the EEPROM  
+- Strings of text (you maybe need a bigger EEPROM)
+- Mouse movements/clicks (not sure, not tested)
+- Modifiers on macro secuences
+- Modifiers on consumer keys
+
+i still havent found the way to make work the RIGTH_GUI and LEFT_GUI keys  
+(aka windows keys or Apple equivalent)  
+  
+for now bytes from 60 to 127 are not used so they are filled with 0xFF  
+the default code uses 10 keys per macro but you can change it to maximum of 14 keys per macro  
+also the macro keys are in secuence, it doesnt support any modifier by now  
+
+theorically we can assign up to 14 keys to each macro  
+128 bytes divided by 8 keys = 16 bytes per key  
+16 bytes minus 2 bytes for the type and ammount of keys = 14 bytes (macros up to 14 keys)  
+
+### Yet to implement
+
+- multiple keys on a single key each time you pressed (this to handle Play / Pause buttons (yes, those are different buttons))
+
+
+# Documentation
 
   [CH552x Datasheet ](https://www.wch-ic.com/downloads/CH552DS1_PDF.html)  
   [USB HID Codes](https://usb.org/sites/default/files/hut1_21_0.pdf#page=83)  

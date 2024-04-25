@@ -148,7 +148,7 @@ i hate red and blue colors so the Neopixels only turn green
 
 */
 
-// George mod v0.3
+// George mod v0.4 
 
 
 // Libraries
@@ -172,20 +172,28 @@ enum KeyType
   MACRO = 2
 };
 
+// theorically we can assign up to 14 keys to each macro
+// 128 bytes divided by 8 keys = 16 bytes per key 
+// 16 minus 2 bytes for the type and ammount of keys = 14 bytes (macros up to 14 keys)
+
+
+// by now it will only read the first 12 bytes of each key
+// you only need to change this value if you want to use more keys
+// additionaly change  uint8_t code[X]; with the maximum ammount of keys you want to use
+
 int index = 0;
 int __xdata incremental = 12;
 
-// #define KEY_EEPROM_FIELDS 12
-
 // structur with key details
+// to make it easier to read, i changed the order of the fields
 __xdata struct key
 {
-  enum KeyType type;
-  uint8_t mod;
-  uint8_t ammount;
-  uint8_t code[10];
-  uint16_t codeConsumer;
-  uint8_t last;
+  enum KeyType type;     // type of key 00 = keyboard key // 01 = consumer key // 02 = macro key
+  uint8_t mod;           // modifier of the key (only used in Keyboard type)
+  uint8_t ammount;       // ammount of keys in the macro (only used in Macro type)
+  uint8_t code[10];      // code of the key (only used in Keyboard and Macro type)
+  uint16_t codeConsumer; // code of the key (only used in Consumer type) (was getting an error when using an array)
+  uint8_t last;          // last state of the key
 };
 
 // NeoPixel Functions
@@ -233,11 +241,6 @@ void handle_key(uint8_t current, struct key *key, uint8_t *neo)
 
       else if (key->type == MACRO)
       {
-        // ===================================================================================
-        // Experimental area
-        // not yet fully implemented
-// aa
-        // execute macro witch is a sequence of X key presses on a single press of a key in the keyboard, the key secuence are read from the eeprom only if key type is MACRO
 
         for (int i = 0; i < key->ammount; i++)
         {
@@ -246,7 +249,6 @@ void handle_key(uint8_t current, struct key *key, uint8_t *neo)
           KBD_code_release(0, key->code[i]);
           DLY_ms(5);
         }
-        // ===================================================================================
       }
       if (neo)
         *neo = NEO_MAX; // light up corresponding NeoPixel
@@ -301,9 +303,9 @@ void main(void)
   KBD_init();   // init USB HID keyboard
   WDT_start();  // start watchdog timer
 
+
   // TODO: Read eeprom for key characters
   // it sohuld read each row of 12 bytes and assign them to the key struct
-
   for (i = 0; i < 8; i++)
   {
     if (eeprom_read_byte(index) == 0)
@@ -332,19 +334,6 @@ void main(void)
     index += incremental;
   }
 
-  /*
-   // Backup in case i fuck up the code
-    for (i = 0; i < 8; i++)
-    {
-      keys[i].mod = (char)eeprom_read_byte(i * KEY_EEPROM_FIELDS);
-      keys[i].type = eeprom_read_byte(i * KEY_EEPROM_FIELDS + 1);
-      keys[i].code = (char)eeprom_read_byte(i * KEY_EEPROM_FIELDS + 2);
-      keys[i].last = 0;
-  }
-
-  */
-
-  //================================================================================================
 
   // Loop
   while (1)
