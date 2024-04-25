@@ -135,10 +135,8 @@ Key Modifiers
 06 Shift + Alt  
 07 Ctrl + Shift + Alt  
 
-*/
 
 
-/*
 mods:
 
 now it has 8 keys
@@ -148,7 +146,7 @@ i hate red and blue colors so the Neopixels only turn green
 
 */
 
-// George mod v0.4 
+// George mod v0.5
 
 
 // Libraries
@@ -180,9 +178,11 @@ enum KeyType
 // by now it will only read the first 12 bytes of each key
 // you only need to change this value if you want to use more keys
 // additionaly change  uint8_t code[X]; with the maximum ammount of keys you want to use
+// and change the delay between key presses in the macro changing the value of delayMacro (ms)
 
 int index = 0;
-int __xdata incremental = 12;
+int __xdata incremental = 12; //size of rows of bytes in the eeprom to easily visualize the data
+int delayMacro = 5;
 
 // structur with key details
 // to make it easier to read, i changed the order of the fields
@@ -245,9 +245,9 @@ void handle_key(uint8_t current, struct key *key, uint8_t *neo)
         for (int i = 0; i < key->ammount; i++)
         {
           KBD_code_press(0, key->code[i]);
-          DLY_ms(5);
+          DLY_ms(delayMacro);
           KBD_code_release(0, key->code[i]);
-          DLY_ms(5);
+          DLY_ms(delayMacro);
         }
       }
       if (neo)

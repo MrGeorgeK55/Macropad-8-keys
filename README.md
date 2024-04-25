@@ -163,14 +163,15 @@ i still havent found the way to make work the RIGTH_GUI and LEFT_GUI keys
 for now bytes from 60 to 127 are not used so they are filled with 0xFF  
 the default code uses 10 keys per macro but you can change it to maximum of 14 keys per macro  
 also the macro keys are in secuence, it doesnt support any modifier by now  
+you can ajust the timing between presses changing the delay in the handle_key function
 
 theorically we can assign up to 14 keys to each macro  
-128 bytes divided by 8 keys = 16 bytes per key  
+128 bytes of eeprom divided by 8 keys = 16 bytes per key  
 16 bytes minus 2 bytes for the type and ammount of keys = 14 bytes (macros up to 14 keys)  
 
 ### Yet to implement
 
-- multiple keys on a single key each time you pressed (this to handle Play / Pause buttons (yes, those are different buttons))
+- multiple keys on a single key each time you pressed (this to handle Play / Pause buttons in the single key (yes, those are different))
 
 
 # Documentation
