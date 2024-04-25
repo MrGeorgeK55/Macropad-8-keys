@@ -130,7 +130,7 @@ but you need to add the mod 01 for shift key press
 // key 5 // Type Macro // Keys 5 // REINFORCE //  
 // key 6 // Type Keyboard // Mod 0 // number 1 key //  
 // key 7 // Type Consumer // Play/Pause Media key //  
-// key 8 // Type Keyboard // Mod 0 // Not used //  
+// key 8 // Type Keyboard // Mod 0 // A key //  
 
 
 # Compilation
