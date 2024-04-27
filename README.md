@@ -52,7 +52,7 @@ C1 represents the code field of the second keyboard key
 For Consumer   
 C0 represents the code field of the first consumer key  
 C1 represents the code field of the second consumer key  
-(rarelly you need a mod for consumer keys so it is not used)  
+(rarely you need a mod for consumer keys so it is not used)  
   
 > [!NOTE] 
 > The keyboard and consumer keys have 2 states, this because in consumer keys Play/Pause are two different keys and for Keyboard becomes useful to have Ctrl+c and Ctrl+v in the same key  
@@ -114,17 +114,17 @@ A0 represents the ammount of keys in the macro
 # Notes:
 
 ### Functions not supported yet by only reading the EEPROM  
-- Strings of text (you maybe need a bigger EEPROM) (maybe a huffman algorithm)
+- Strings of text (you may need a bigger EEPROM) (maybe a huffman algorithm)
 - Mouse movements/clicks (not sure, not tested)
 - Modifiers on macro secuences
-- Modifiers on consumer keys
-
-i still havent found the way to make work the RIGTH_GUI and LEFT_GUI keys  
-(aka windows keys or Apple equivalent)  
+- Modifiers on consumer keys  
+  
+i still have not found the way to make work the RIGTH_GUI and LEFT_GUI keys  
+(aka Windows keys or Apple equivalent)  
   
 for now bytes from 60 to 127 are not used so they are filled with 0xFF  
 the default code uses 10 keys per macro but you can change it to maximum of 14 keys per macro  
-also the macro keys are in secuence, it doesnt support any modifier by now  
+also the macro keys are in sequence, it doesnt support any modifier by now  
 you can ajust the timing between presses changing the delay in the delayMacro variable 
   
 theorically we can assign up to 14 keys to each macro  
@@ -181,7 +181,7 @@ theorically we can assign up to 14 keys to each macro
 
   [CH552x Datasheet ](https://www.wch-ic.com/downloads/CH552DS1_PDF.html)  
   [USB HID Codes](https://usb.org/sites/default/files/hut1_21_0.pdf#page=83)  
-
+  [isp55e0](https://github.com/frank-zago/isp55e0)  
 
 ### Yet to implement
 

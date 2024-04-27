@@ -39,114 +39,9 @@
 
 // ===================================================================================
 
-// Firmware Description
-
-// some secuences
-// 380 = D S W W A S S
-// 120 = D D S A D S
-// HELL = S W A S W D S W
-// AMMO = S S W D
-// REINFORCE = W S D A W
-// note for readability the secuences are in capital letters but the actual key presses are in lower case
-
-// or in keyboard hex code
-// 380 = 07 16 1A 1A 04 16 16
-// 120 = 07 07 16 1E 07 16
-// HELL = 16 1A 04 16 1A 07 16 1A
-// AMMO = 16 16 1A 04
-// REINFORCE = 1A 16 07 1E 1A
-
-// some key codes both for keyboard and consumer
-
-// consumer keys
-//  0xB3	Play/Pause Media key // 0xB0	Next Track key // 0xB1	Previous Track key // 0xAE	Volume Down key // 0xAF	Volume Up key // 0xAD	Volume Mute key
-
-// keyboard keys
-//  number 1 = 1E // number 2 = 1F
-
-//  W          1A
-// A S D     04 16 07
-
-// note for readability the letters are in capital letters but the actual key presses are in lower case
-// if you want to have the secuences in capital letters fortunately they have the same hex code
-// but you need to add the mod 01 for shift key press
-
-// current eeprom data structure and random data just for testing
-/*
-| Hex Address | 00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 0A | 0B |
-|-----------|----|----|----|----|----|----|----|----|----|----|----|----|
-| x0000000: | 02 | 07 | 07 | 16 | 1A | 1A | 04 | 16 | 16 | 00 | 00 | 00 | 
-| x000000c: | 02 | 06 | 07 | 07 | 16 | 04 | 07 | 16 | 00 | 00 | 00 | 00 | 
-| x0000018: | 02 | 08 | 16 | 1A | 04 | 16 | 1A | 07 | 16 | 1A | 00 | 00 | 
-| x0000024: | 02 | 04 | 16 | 16 | 07 | 04 | 00 | 00 | 00 | 00 | 00 | 00 | 
-| x0000030: | 02 | 05 | 1A | 16 | 07 | 04 | 1A | 00 | 00 | 00 | 00 | 00 | 
-| x000003c: | 00 | 00 | 1E | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
-| x0000048: | 01 | E2 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
-| x0000054: | 00 | 01 | 04 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
-*/
-// key 1 // Type Macro // Keys 7 // 380 //  
-// key 2 // Type Macro // Keys 6 // 120 //  
-// key 3 // Type Macro // Keys 8 // HELL //  
-// key 4 // Type Macro // Keys 4 // AMMO //  
-// key 5 // Type Macro // Keys 5 // REINFORCE //  
-// key 6 // Type Keyboard // Mod 0 // number 1 key //  
-// key 7 // Type Consumer // Play/Pause Media key //  
-// key 8 // Type Keyboard // Mod 0 // Not used //  
-
-
-// for now bytes from 54 to 127 are not used so they are filled with 0x00
-// by now the max ammount of keys a macro can have is 10
-
-// Example of the eeprom data structure
-
-// Address:   0  1  2  3  4  5  6  7  8  9 10 11
-// Address:  00 01 02 03 04 05 06 07 08 09 0A 0B  (hex)
-//----------------------------------------------
-// x0000000: T0 M0 C0 00 00 00 00 00 00 00 00 00  // key 1 // used only on keyboard keys
-// x000000c: T1 C0 00 00 00 00 00 00 00 00 00 00  // key 2 // used only on consumer keys
-// x0000018: T2 A0 C0 C1 C2 C3 C4 C5 C6 C7 C8 C9  // key 3 // used only on macro keys
-
-// T0 represents the type field of the first key
-// 00 = keyboard key // 01 = consumer key // 02 = macro key
-
-// For keyboard and consumer keys
-// M0 represents the mod field of the first key
-
-// C0 represents the code field of the first key
-// (rarelly you need a mod for consumer keys so it is not used)
-
-// C1 to C9 represents the extra code fields only used for macro keys
-
-// For macro keys
-// A0 represents the ammount of keys in the macro
-
-// for visibility reasons any 00 after any data its just an FF or empty field
-// 00 is different than FF
-/*
-
-Key Modifiers  
-  
-00 None  
-01 Ctrl  
-02 Shift  
-03 Ctrl + Shift  
-04 Alt  
-05 Ctrl + Alt  
-06 Shift + Alt  
-07 Ctrl + Shift + Alt  
-
-
-
-mods:
-
-now it has 8 keys
-i removed the knob
-theorically i still have 1 extra pinout to asign 1 more key
-i hate red and blue colors so the Neopixels only turn green
-
-*/
-
-// George mod v0.5
+// George mod v0.6
+//last changes: Added toggle functionality to the keys 
+// see the readme to check the structure of the eeprom
 
 
 // Libraries
@@ -189,11 +84,12 @@ int delayMacro = 5;
 __xdata struct key
 {
   enum KeyType type;     // type of key 00 = keyboard key // 01 = consumer key // 02 = macro key
-  uint8_t mod;           // modifier of the key (only used in Keyboard type)
+  uint8_t mod[2];           // modifier of the key (only used in Keyboard type)
   uint8_t ammount;       // ammount of keys in the macro (only used in Macro type)
   uint8_t code[10];      // code of the key (only used in Keyboard and Macro type)
-  uint16_t codeConsumer; // code of the key (only used in Consumer type) (was getting an error when using an array)
+  uint16_t codeConsumer[2]; // code of the key (only used in Consumer type) (was getting an error when using an array)
   uint8_t last;          // last state of the key
+  uint8_t toggle;           // toggle for the key
 };
 
 // NeoPixel Functions
@@ -213,6 +109,7 @@ void NEO_update(uint8_t *neo)
 }
 
 // Read EEPROM (stolen from https://github.com/DeqingSun/ch55xduino/blob/ch55xduino/ch55xduino/ch55x/cores/ch55xduino/eeprom.c)
+// not changed, no idea how it works or what it does
 uint8_t eeprom_read_byte(uint8_t addr)
 {
   ROM_ADDR_H = DATA_FLASH_ADDR >> 8;
@@ -231,25 +128,39 @@ void handle_key(uint8_t current, struct key *key, uint8_t *neo)
     { // key was pressed?
       if (key->type == KEYBOARD)
       {
-        KBD_code_press(key->mod, key->code[0]); // press keyboard/keypad key
+        if (key->toggle == 0)
+        {
+          KBD_code_press(key->mod[0], key->code[0]); // press keyboard/keypad key
+        }
+        else
+        {
+          KBD_code_press(key->mod[1], key->code[1]); // release
+        }
       }
 
       else if (key->type == CONSUMER)
       {
-        CON_press(key->codeConsumer); // press consumer key
+        if (key->toggle == 0)
+        {
+          CON_press(key->codeConsumer[0]); // press consumer key
+        }
+        else
+        {
+          CON_press(key->codeConsumer[1]); // release
+        }
       }
 
       else if (key->type == MACRO)
       {
-
         for (int i = 0; i < key->ammount; i++)
         {
           KBD_code_press(0, key->code[i]);
-          DLY_ms(delayMacro);
+          DLY_ms(5);
           KBD_code_release(0, key->code[i]);
-          DLY_ms(delayMacro);
+          DLY_ms(5);
         }
       }
+
       if (neo)
         *neo = NEO_MAX; // light up corresponding NeoPixel
     }
@@ -257,11 +168,29 @@ void handle_key(uint8_t current, struct key *key, uint8_t *neo)
     { // key was released?
       if (key->type == KEYBOARD)
       {
-        KBD_code_release(key->mod, key->code[0]); // release
+        if (key->toggle == 0)
+        {
+          KBD_code_release(key->mod[0], key->code[0]); // release
+          key->toggle = 1;
+        }
+        else
+        {
+          KBD_code_release(key->mod[1], key->code[1]); // press keyboard/keypad key
+          key->toggle = 0;
+        }
       }
       else if (key->type == CONSUMER)
       {
-        CON_release(key->codeConsumer); // release
+        if (key->toggle == 0)
+        {
+          CON_release(key->codeConsumer[0]); // release
+          key->toggle = 1;
+        }
+        else
+        {
+          CON_release(key->codeConsumer[1]); // release
+          key->toggle = 0;
+        }
       }
       // no need to release macro keys but enter cooldown in case it is a macro key
       if (key->type == MACRO)
@@ -311,15 +240,20 @@ void main(void)
     if (eeprom_read_byte(index) == 0)
     {
       keys[i].type = KEYBOARD;
-      keys[i].mod = eeprom_read_byte(index + 1);
+      keys[i].mod[0] = eeprom_read_byte(index + 1);
       keys[i].code[0] = eeprom_read_byte(index + 2);
+      keys[i].mod[1] = eeprom_read_byte(index + 3);
+      keys[i].code[1] = eeprom_read_byte(index + 4);
       keys[i].last = 0;
+      keys[i].toggle = 0;
     }
     else if (eeprom_read_byte(index) == 1)
     {
       keys[i].type = CONSUMER;
-      keys[i].codeConsumer = eeprom_read_byte(index + 1);
+      keys[i].codeConsumer[0] = eeprom_read_byte(index + 1);
+      keys[i].codeConsumer[1] = eeprom_read_byte(index + 2);
       keys[i].last = 0;
+      keys[i].toggle = 0;
     }
     else if (eeprom_read_byte(index) == 2)
     {
