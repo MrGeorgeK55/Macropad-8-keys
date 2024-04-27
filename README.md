@@ -1,9 +1,5 @@
 # Macropad 8 Keys
 
-> [!NOTE]
-> This is a **Work in Progress**.
-> For now it compiles without errors but it needs testing 
-
 
 Custom firmware for 8 key macropad (Based on IC CH552g)
 
@@ -33,105 +29,70 @@ with a theorical maximum 14 keys, also i have an unused I/O pin
 # Example data structure for the EEPROM
 
 
-
 | Hex Address | 00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 0A | 0B |
 |-----------|----|----|----|----|----|----|----|----|----|----|----|----|
-| x0000000: | T0 | M0 | C0 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
-| x000000c: | T1 | C0 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
+| x0000000: | T0 | M0 | C0 | M1 | C1 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
+| x000000c: | T1 | C0 | C1 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
 | x0000018: | T2 | A0 | C0 | C1 | C2 | C3 | C4 | C5 | C6 | C7 | C8 | C9 |
 
 T0 represents the type field of the first key  
 00 = keyboard key // 01 = consumer key // 02 = macro key  
 
 ### For keyboard and consumer keys
-M0 represents the mod field of the first key  
+T0 represents the type field of the first key  
+00 = keyboard key // 01 = consumer key // 02 = macro key  
   
-C0 represents the code field of the first key  
+For keyboard  
+M0 represents the mod field of the first keyboad key  
+M1 represents the mod field of the second keyboard key   
+  
+C0 represents the code field of the first keyboad key  
+C1 represents the code field of the second keyboard key   
+  
+For Consumer   
+C0 represents the code field of the first consumer key  
+C1 represents the code field of the second consumer key  
 (rarelly you need a mod for consumer keys so it is not used)  
   
-C1 to C9 represents the extra code fields only used for macro keys  
-  
-  
-### Modifiers  
-  
-00 None  
-01 Ctrl  
-02 Shift  
-03 Ctrl + Shift  
-04 Alt  
-05 Ctrl + Alt  
-06 Shift + Alt  
-07 Ctrl + Shift + Alt  
+> [!NOTE] 
+> The keyboard and consumer keys have 2 states, this because in consumer keys Play/Pause are two different keys and for Keyboard becomes useful to have Ctrl+c and Ctrl+v in the same key  
 
 
 ### For macro keys
 A0 represents the ammount of keys in the macro  
+**This number must be in Hex value, not decimal**
+
   
-for visibility reasons any 00 after any data its just an FF or empty field   
+*for visibility reasons any 00 after any data its just an FF or empty field   
 00 is different than FF   
 
+## Visual Example data
 
-# Current Example of structure for the EEPROM
+### Keyboard type
 
-some example secuences  
-380 = D S W W A S S  
-120 = D D S A D S  
-HELL = S W A S W D S W  
-AMMO = S S W D  
-REINFORCE = W S D A W  
-  
-or in keyboard hex code  
-380 = 07 16 1A 1A 04 16 16  
-120 = 07 07 16 04 07 16  
-HELL = 16 1A 04 16 1A 07 16 1A  
-AMMO = 16 16 1A 07  
-REINFORCE = 1A 16 07 04 1A  
-  
-some key codes both for keyboard and consumer  
-  
-consumer keys  
-B3	Play/Pause Media key  
-B0	Next Track key  
-B1	Previous Track key  
-AE	Volume Down key  
-AF	Volume Up key  
-AD	Volume Mute key  
-
-keyboard keys  
-1 = 1E  
-2 = 1F   
-W = 1A  
-A = 04  
-S = 16  
-D = 07  
-
-note for readability reasons the letters are in capital letters but the actual key presses are in lower case  
-if you want to have the secuences in capital letters fortunately they have the same hex code   
-but you need to add the mod 01 for shift key press  
-
-## visual example
+| Raw bytes         | Type     | Mod | Key | Mod2 | Key2 | Result | Result2 |
+| ----------- | --- | ----     | ---- | --- | --- | --- | --- |  
+| 00 00 04 00 04 .. | Keyboard | None | a | None | a | a | a |
+| 00 02 04 02 04 .. | Keyboard | Shift | a | Shift | a | A | A |
+| 00 01 06 01 19 .. | Keyboard | Ctrl | c | Ctrl | v | Ctrl+C | Ctrl+V |
+| 00 05 4C 03 29 .. | Keyboard | Ctrl+Alt | DEL | Ctrl+Shift | ESC | Ctrl+Alt+DEL | Ctrl+Shift+ESC |
 
 
-| Hex Address | 00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 0A | 0B |
-|-----------|----|----|----|----|----|----|----|----|----|----|----|----|
-| x0000000: | 02 | 07 | 07 | 16 | 1A | 1A | 04 | 16 | 16 | 00 | 00 | 00 | 
-| x000000c: | 02 | 06 | 07 | 07 | 16 | 04 | 07 | 16 | 00 | 00 | 00 | 00 | 
-| x0000018: | 02 | 08 | 16 | 1A | 04 | 16 | 1A | 07 | 16 | 1A | 00 | 00 | 
-| x0000024: | 02 | 04 | 16 | 16 | 07 | 04 | 00 | 00 | 00 | 00 | 00 | 00 | 
-| x0000030: | 02 | 05 | 1A | 16 | 07 | 04 | 1A | 00 | 00 | 00 | 00 | 00 | 
-| x000003c: | 00 | 00 | 1E | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
-| x0000048: | 01 | E2 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
-| x0000054: | 00 | 01 | 04 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 00 | 
+### Consumer Type  
 
-// key 1 // Type Macro // Keys 7 // 380 //  
-// key 2 // Type Macro // Keys 6 // 120 //  
-// key 3 // Type Macro // Keys 8 // HELL //  
-// key 4 // Type Macro // Keys 4 // AMMO //  
-// key 5 // Type Macro // Keys 5 // REINFORCE //  
-// key 6 // Type Keyboard // Mod 0 // number 1 key //  
-// key 7 // Type Consumer // Play/Pause Media key //  
-// key 8 // Type Keyboard // Mod 0 // A key //  
+| Raw bytes | Type | Key | Key2 |
+| -------- | ------ |  --- |  --- | 
+| 01 B6 B6 .. | Consumer | Previous | Previous | 
+| 01 B0 B1 .. | Consumer | Play | Pause |
+| 01 E9 E9 .. | Consumer | Vol + | Vol + |
+| 01 EA EA .. | Consumer | Vol - | Vol - |
 
+### Macro Type
+
+| Raw bytes | Type | # of Keys | Code | Code1 | Code2 | Result |   
+| -------- | ------ |  --- |  --- |  --- | --- | --- |
+| 02 03 06 04 17 .. | Macro | 3 | c | a | t | cat |
+| 02 03 07 12 0A .. | Macro | 3 | d | o | g | dog |
 
 # Compilation
 
@@ -149,10 +110,11 @@ but you need to add the mod 01 for shift key press
 2. edit the bytes of this binary using the example form above, and write it back:
 3. `$ isp55e0 --data-flash flashdata.bin`
 
+
 # Notes:
 
 ### Functions not supported yet by only reading the EEPROM  
-- Strings of text (you maybe need a bigger EEPROM)
+- Strings of text (you maybe need a bigger EEPROM) (maybe a huffman algorithm)
 - Mouse movements/clicks (not sure, not tested)
 - Modifiers on macro secuences
 - Modifiers on consumer keys
@@ -169,13 +131,61 @@ theorically we can assign up to 14 keys to each macro
 128 bytes of eeprom divided by 8 keys = 16 bytes per key  
 16 bytes minus 2 bytes for the type and ammount of keys = 14 bytes (macros up to 14 keys)  
 
-### Yet to implement
 
-- multiple keys on a single key each time you pressed (this to handle Play / Pause buttons in the single key (yes, those are different))
+### Modifiers
+
+ | ID | Function |  
+ | --- | --- |
+ | 00 | None  |  
+ | 01 | Ctrl  |  
+ | 02 | Shift | 
+ | 03 | Ctrl + Shift |   
+ | 04 | Alt |   
+ | 05 | Ctrl + Alt | 
+ | 06 | Shift + Alt | 
+ | 07 | Ctrl + Shift + Alt | 
+
+### Consumer Keyboard Keycodes
+  
+
+|ID	|Function|
+| --- | --- |
+|30	|SYS_POWER |
+|31|	SYS_RESET|
+|32| SYS_SLEEP|
+|E2|	VOL_MUTE|
+|E9|	VOL_UP|
+|EA|	VOL_DOWN|
+|B0|	CON_MEDIA_PLAY|
+|B1|	CON_MEDIA_PAUSE|
+|B2| CON_MEDIA_RECORD|
+|B3|	MEDIA_FORWARD|
+|B4|	MEDIA_REWIND|
+|B5|	MEDIA_NEXT|
+|B6|	MEDIA_PREV|
+|B7|	MEDIA_STOP|
+|B8|	MEDIA_EJECT|
+|B9|	MEDIA_RANDOM|
+|40|	MENU|
+|41|	MENU_PICK|
+|42|	MENU_UP|
+|43|	MENU_DOWN|
+|44|	MENU_LEFT|
+|45|	MENU_RIGHT|
+|46|	MENU_ESCAPE|
+|47|	MENU_INCR|
+|48|	MENU_DECR|
 
 
 # Documentation
 
   [CH552x Datasheet ](https://www.wch-ic.com/downloads/CH552DS1_PDF.html)  
   [USB HID Codes](https://usb.org/sites/default/files/hut1_21_0.pdf#page=83)  
-  [Consumer HID Codes](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)  
+
+
+### Yet to implement
+
+- After a key is pressed and changes to Second key, add a delay to change it automatically to First Key 
+- 
+-
+(no idea of what else could it need)
